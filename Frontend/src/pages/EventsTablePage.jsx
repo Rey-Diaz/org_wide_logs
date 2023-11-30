@@ -1,11 +1,11 @@
-// Frontend/src/pages/EventsTablePage.jsx
 import { useState, useEffect } from 'react';
 import Card from '../components/Card';
 import OrgList from '../components/OrgList';
 import NetworkList from '../components/NetworkList';
 import EventsTable from '../components/EventsTable';
+import EventCard from '../components/EventCard'; // Import the EventCard component
 import { setApiKey as setApiKeyInBackend, fetchNetworkEvents } from '../services/merakiService';
-import styles from './EventsTablePage.module.css'; // Ensure you have this CSS module
+import styles from './EventsTablePage.module.css';
 
 function EventsTablePage() {
     const [apiKey, setApiKeyState] = useState('');
@@ -13,6 +13,7 @@ function EventsTablePage() {
     const [apiKeySubmitted, setApiKeySubmitted] = useState(false);
     const [selectedNetworks, setSelectedNetworks] = useState([]);
     const [events, setEvents] = useState([]);
+    const [selectedEvent, setSelectedEvent] = useState(null); // State for selected event
 
     const handleSubmit = async (event) => {
         event.preventDefault();
@@ -42,6 +43,14 @@ function EventsTablePage() {
             fetchEvents();
         }
     }, [selectedNetworks, apiKeySubmitted]);
+
+    const handleEventSelect = (eventData) => {
+        setSelectedEvent(eventData);
+    };
+
+    const handleCloseCard = () => {
+        setSelectedEvent(null);
+    };
 
     return (
         <div className={styles.eventsTablePageContainer}>
@@ -81,7 +90,8 @@ function EventsTablePage() {
             {selectedNetworks.length > 0 && (
                 <div className={styles.eventsSection}>
                     <Card>
-                        <EventsTable events={events} />
+                        <EventsTable events={events} onEventSelect={handleEventSelect} />
+                        {selectedEvent && <EventCard eventData={selectedEvent} onClose={handleCloseCard} />}
                     </Card>
                 </div>
             )}

@@ -1,11 +1,7 @@
 import PropTypes from 'prop-types';
 import styles from './EventsTable.module.css';
 
-function EventsTable({ events }) {
-    const handleEventClick = (eventData) => {
-        console.log(eventData); // Placeholder for your event detail handling logic
-    };
-
+function EventsTable({ events, onEventSelect }) {
     return (
         <div>
             <h2>Network Events</h2>
@@ -43,7 +39,7 @@ function EventsTable({ events }) {
                             <td>
                                 <button 
                                     className={styles.expandButton} 
-                                    onClick={() => handleEventClick(event.event_data)}>
+                                    onClick={() => onEventSelect(event)}>
                                     Expand
                                 </button>
                             </td>
@@ -57,6 +53,7 @@ function EventsTable({ events }) {
 
 EventsTable.propTypes = {
     events: PropTypes.arrayOf(PropTypes.object).isRequired,
+    onEventSelect: PropTypes.func.isRequired,
 };
 
 export default EventsTable;
