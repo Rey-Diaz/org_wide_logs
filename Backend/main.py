@@ -2,6 +2,7 @@ import logging
 from fastapi import FastAPI, HTTPException, Request, Query, Path
 from fastapi.middleware.cors import CORSMiddleware
 from meraki import DashboardAPI
+from typing import List
 
 # Configure logging
 logging.basicConfig(level=logging.INFO)
@@ -95,6 +96,45 @@ async def get_networks_details(request: Request):
 
     return all_clients_info
 
+@app.get("/networks/{network_id}/events")
+async def get_network_events(network_id: str):
+    if not meraki_dashboard:
+        raise HTTPException(status_code=400, detail="API key is not set")
+
+    product_types = ["appliance", "camera", "cellularGateway", "switch", "systemsManager", "wireless"]
+    all_events = []
+
+    for product_type in product_types:
+        try:
+            response = meraki_dashboard.networks.getNetworkEvents(
+                network_id, 
+                productType=product_type,
+                total_pages=3
+            )
+            events = response.get("events", [])
+
+            for event in events:
+                formatted_event = {
+                    "occurred_at": event.get("occurredAt"),
+                    "network_id": event.get("networkId"),
+                    "type": event.get("type"),
+                    "description": event.get("description"),
+                    "category": event.get("category"),
+                    "client_id": event.get("clientId"),
+                    "client_description": event.get("clientDescription"),
+                    "client_mac": event.get("clientMac"),
+                    "device_serial": event.get("deviceSerial"),
+                    "device_name": event.get("deviceName"),
+                    "ssid_number": event.get("ssidNumber"),
+                    "event_data": event.get("eventData", {}),
+                    "product_type": product_type  # Added to identify the product type of the event
+                }
+                all_events.append(formatted_event)
+        except Exception as e:
+            logger.error(f"Error fetching events for product type {product_type} in network {network_id}: {str(e)}")
+            # Optionally, you can decide to continue fetching other types or stop and return an error
+
+    return all_events
 
 
 

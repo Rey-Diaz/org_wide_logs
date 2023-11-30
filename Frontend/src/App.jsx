@@ -8,6 +8,7 @@ import Page1 from './pages/Page1';
 import Page2 from './pages/Page2';
 import TablePage from './pages/TablePage';
 import './App.css';
+import EventsTablePage from './pages/EventsTablePage';
 
 function App() {
     const [isSidebarOpen, setIsSidebarOpen] = useState(false);
@@ -29,6 +30,7 @@ function App() {
                             <Route path="/page1" element={<Page1 />} />
                             <Route path="/page2" element={<Page2 />} />
                             <Route path="/OrgTable" element={<TablePage />} />
+                            <Route path="/EventsTable" element={<EventsTablePage />} />
                         </Routes>
                     </main>
                 </div>

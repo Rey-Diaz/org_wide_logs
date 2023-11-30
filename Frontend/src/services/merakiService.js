@@ -50,6 +50,17 @@ const fetchNetworkDetails = async (networkIds) => {
     return response.json();
 };
 
-export { setApiKey, fetchOrganizations, fetchNetworks, fetchNetworkDetails }; // Export the fetchNetworkDetails function
+const fetchNetworkEvents = async (networkId) => {
+    const response = await fetch(`http://localhost:8000/networks/${networkId}/events`, {
+        method: 'GET'
+    });
+    if (!response.ok) {
+        throw new Error('Failed to fetch network events');
+    }
+    return response.json();
+};
+
+
+export { setApiKey, fetchOrganizations, fetchNetworks, fetchNetworkDetails, fetchNetworkEvents }; // Export the fetchNetworkDetails function
 
 

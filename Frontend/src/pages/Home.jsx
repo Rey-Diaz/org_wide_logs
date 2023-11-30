@@ -26,8 +26,8 @@ function Home() {
                 <Card className={styles.card}>
                     <h2>Card 2</h2>
                     <p>Description for Card 2.</p>
-                    <Link to="/page2" className={styles.link}>
-                        Go to Page 2
+                    <Link to="/EventsTable" className={styles.link}>
+                        Go to Events Table Page
                     </Link>
                 </Card>
 
