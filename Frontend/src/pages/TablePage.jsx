@@ -4,7 +4,7 @@ import OrgList from '../components/OrgList'; // Import OrgList component
 import styles from './TablePage.module.css';
 import { setApiKey as setApiKeyInBackend } from '../services/merakiService';
 
-function ApiKeyPage() {
+function TablePage() {
     const [apiKey, setApiKeyState] = useState('');
     const [showOrgList, setShowOrgList] = useState(false); // State to control OrgList display
 
@@ -46,4 +46,4 @@ function ApiKeyPage() {
     );
 }
 
-export default ApiKeyPage;
+export default TablePage;
