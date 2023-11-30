@@ -1,8 +1,11 @@
-// Frontend/src/components/EventsTable.jsx
 import PropTypes from 'prop-types';
-import styles from './EventsTable.module.css'; // You need to create this CSS module
+import styles from './EventsTable.module.css';
 
 function EventsTable({ events }) {
+    const handleEventClick = (eventData) => {
+        console.log(eventData); // Placeholder for your event detail handling logic
+    };
+
     return (
         <div>
             <h2>Network Events</h2>
@@ -20,28 +23,33 @@ function EventsTable({ events }) {
                         <th>Device Serial</th>
                         <th>Device Name</th>
                         <th>SSID Number</th>
-                        <th>Event Data</th>
+                        <th>Event Details</th> {/* Updated header */}
                     </tr>
                 </thead>
                 <tbody>
-    {events.map((event, index) => (
-        <tr key={index}>
-            <td>{event.occurred_at}</td>
-            <td>{event.network_id}</td>
-            <td>{event.type}</td>
-            <td>{event.description}</td>
-            <td>{event.category}</td>
-            <td>{event.client_id}</td>
-            <td>{event.client_description}</td>
-            <td>{event.client_mac}</td>
-            <td>{event.device_serial}</td>
-            <td>{event.device_name}</td>
-            <td>{event.ssid_number}</td>
-            {/* Render eventData as a JSON string or format as needed */}
-            <td>{JSON.stringify(event.event_data)}</td>
-        </tr>
-    ))}
-</tbody>
+                    {events.map((event, index) => (
+                        <tr key={index}>
+                            <td>{event.occurred_at}</td>
+                            <td>{event.network_id}</td>
+                            <td>{event.type}</td>
+                            <td>{event.description}</td>
+                            <td>{event.category}</td>
+                            <td>{event.client_id}</td>
+                            <td>{event.client_description}</td>
+                            <td>{event.client_mac}</td>
+                            <td>{event.device_serial}</td>
+                            <td>{event.device_name}</td>
+                            <td>{event.ssid_number}</td>
+                            <td>
+                                <button 
+                                    className={styles.expandButton} 
+                                    onClick={() => handleEventClick(event.event_data)}>
+                                    Expand
+                                </button>
+                            </td>
+                        </tr>
+                    ))}
+                </tbody>
             </table>
         </div>
     );

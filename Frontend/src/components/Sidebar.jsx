@@ -16,11 +16,11 @@ function Sidebar({ isOpen, toggleSidebar }) {
             <Link to="/page1" className={styles.link}>
                 <span className={styles.icon}><MdPageview /></span> Page 1
             </Link>
-            <Link to="/page2" className={styles.link}>
-                <span className={styles.icon}><MdPageview /></span> Page 2
+            <Link to="/EventsTable" className={styles.link}>
+                <span className={styles.icon}><MdPageview /></span> Event Table
             </Link>
             <Link to="/OrgTable" className={styles.link}>
-                <span className={styles.icon}><MdVpnKey /></span> API Key
+                <span className={styles.icon}><MdVpnKey /></span> Client Table
             </Link>
             {/* Other links */}
         </div>
