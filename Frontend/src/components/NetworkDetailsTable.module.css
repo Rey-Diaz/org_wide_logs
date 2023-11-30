@@ -12,3 +12,13 @@ th, td {
 th {
     background-color: #f4f4f4;
 }
+
+tr:nth-child(even) {
+    background-color: #f9f9f9;
+}
+
+tr:hover {
+    background-color: #eaeaea;
+}
+
+/* Additional styles for responsiveness, typography, etc., as needed */

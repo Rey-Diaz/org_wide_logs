@@ -60,7 +60,6 @@ async def get_networks(org_id: str):
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
 
-
 @app.post("/networks/details")
 async def get_networks_details(request: Request):
     if not meraki_dashboard:

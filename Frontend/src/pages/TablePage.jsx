@@ -4,7 +4,7 @@ import OrgList from '../components/OrgList';
 import NetworkList from '../components/NetworkList';
 import NetworkDetailsTable from '../components/NetworkDetailsTable';
 import styles from './TablePage.module.css';
-import { setApiKey as setApiKeyInBackend } from '../services/merakiService';
+import { setApiKey as setApiKeyInBackend, fetchNetworkDetails as fetchNetworkDetailsFromService } from '../services/merakiService';
 
 function TablePage() {
     const [apiKey, setApiKeyState] = useState('');
@@ -12,7 +12,6 @@ function TablePage() {
     const [apiKeySubmitted, setApiKeySubmitted] = useState(false);
     const [selectedNetworks, setSelectedNetworks] = useState([]);
     const [networkDetails, setNetworkDetails] = useState([]);
-    
 
     const handleSubmit = async (event) => {
         event.preventDefault();
@@ -27,22 +26,9 @@ function TablePage() {
 
     const fetchNetworkDetails = async () => {
         try {
-            // Fetch network details only if there are selected networks
             if (selectedOrg && selectedNetworks.length > 0) {
-                const response = await fetch('/networks/details', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify({ network_ids: selectedNetworks }),
-                });
-
-                if (response.ok) {
-                    const data = await response.json();
-                    setNetworkDetails(data);
-                } else {
-                    throw new Error('Failed to fetch network details.');
-                }
+                const data = await fetchNetworkDetailsFromService(selectedNetworks);
+                setNetworkDetails(data);
             }
         } catch (error) {
             console.error('Error fetching network details:', error);
@@ -56,40 +42,46 @@ function TablePage() {
     }, [selectedOrg, selectedNetworks]);
 
     return (
-        <div className={styles.apiKeyContainer}>
-            <Card>
-                <form onSubmit={handleSubmit} className={styles.apiKeyForm}>
-                    <div className={styles.formGroup}>
-                        <label className={styles.label}>API Key:</label>
-                        <input
-                            type="text"
-                            value={apiKey}
-                            onChange={(e) => setApiKeyState(e.target.value)}
-                            className={styles.input}
-                        />
-                    </div>
-                    <button type="submit" className={styles.submitBtn}>
-                        Submit
-                    </button>
-                </form>
-            </Card>
-            {apiKeySubmitted && (
+        <div className={styles.tablePageContainer}>
+            <div className={styles.apiKeySection}>
                 <Card>
-                    <OrgList apiKey={apiKey} setSelectedOrg={setSelectedOrg} />
+                    <form onSubmit={handleSubmit} className={styles.apiKeyForm}>
+                        <div className={styles.formGroup}>
+                            <label className={styles.label}>API Key:</label>
+                            <input
+                                type="text"
+                                value={apiKey}
+                                onChange={(e) => setApiKeyState(e.target.value)}
+                                className={styles.input}
+                            />
+                        </div>
+                        <button type="submit" className={styles.submitBtn}>
+                            Submit
+                        </button>
+                    </form>
                 </Card>
+            </div>
+            {apiKeySubmitted && (
+                <div className={styles.orgNetworkSection}>
+                    <Card>
+                        <OrgList apiKey={apiKey} setSelectedOrg={setSelectedOrg} />
+                    </Card>
+                    {selectedOrg && (
+                        <Card>
+                            <NetworkList
+                                orgId={selectedOrg}
+                                onNetworkSelectionChange={(selectedNetworks) => setSelectedNetworks(selectedNetworks)}
+                            />
+                        </Card>
+                    )}
+                </div>
             )}
             {selectedOrg && (
-                <>
-                    <Card>
-                        <NetworkList
-                            orgId={selectedOrg}
-                            onNetworkSelectionChange={(selectedNetworks) => setSelectedNetworks(selectedNetworks)}
-                        />
-                    </Card>
+                <div className={styles.networkDetailsSection}>
                     <Card>
                         <NetworkDetailsTable data={networkDetails} />
                     </Card>
-                </>
+                </div>
             )}
         </div>
     );
