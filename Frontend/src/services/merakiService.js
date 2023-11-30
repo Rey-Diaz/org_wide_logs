@@ -34,5 +34,22 @@ const fetchNetworks = async (orgId) => {
 };
 
 
+const baseUrl = 'http://localhost:8000'; // Hardcoded base URL
 
-export { setApiKey, fetchOrganizations, fetchNetworks };
+const fetchNetworkDetails = async (networkIds) => {
+    const response = await fetch(`${baseUrl}/networks/details`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ network_ids: networkIds }),
+    });
+    if (!response.ok) {
+        throw new Error('Failed to fetch network details');
+    }
+    return response.json();
+};
+
+export { setApiKey, fetchOrganizations, fetchNetworks, fetchNetworkDetails }; // Export the fetchNetworkDetails function
+
+

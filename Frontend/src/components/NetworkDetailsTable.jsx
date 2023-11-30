@@ -1,32 +1,33 @@
 
 import PropTypes from 'prop-types';
+import styles from './NetworkDetailsTable.module.css';
 
 function NetworkDetailsTable({ data }) {
     return (
         <div>
             <h2>Network Details</h2>
-            <table>
-                <thead>
-                    <tr>
-                        <th>Client MAC</th>
-                        <th>Client User ID</th>
-                        <th>First Seen</th>
-                        <th>Last Seen</th>
-                        <th>Network ID</th>
-                        <th>WAP Name</th>
-                        <th>MR Device Name</th>
+            <table className={styles.table}>
+                <thead className={styles.thead}>
+                    <tr className={styles.tr}>
+                        <th className={styles.th}>Client MAC</th>
+                        <th className={styles.th}>Client User ID</th>
+                        <th className={styles.th}>First Seen</th>
+                        <th className={styles.th}>Last Seen</th>
+                        <th className={styles.th}>Network ID</th>
+                        <th className={styles.th}>WAP Name</th>
+                        <th className={styles.th}>MR Device Name</th>
                     </tr>
                 </thead>
-                <tbody>
+                <tbody className={styles.tbody}>
                     {data.map((item) => (
-                        <tr key={item.client_mac}>
-                            <td>{item.client_mac}</td>
-                            <td>{item.client_user_id}</td>
-                            <td>{item.client_timestamps.first_seen}</td>
-                            <td>{item.client_timestamps.last_seen}</td>
-                            <td>{item.network_id}</td>
-                            <td>{item.wap_name}</td>
-                            <td>{item.mr_device_name}</td>
+                        <tr key={item.client_mac} className={styles.tr}>
+                            <td className={styles.td}>{item.client_mac}</td>
+                            <td className={styles.td}>{item.client_user_id}</td>
+                            <td className={styles.td}>{item.client_timestamps.first_seen}</td>
+                            <td className={styles.td}>{item.client_timestamps.last_seen}</td>
+                            <td className={styles.td}>{item.network_id}</td>
+                            <td className={styles.td}>{item.wap_name}</td>
+                            <td className={styles.td}>{item.mr_device_name}</td>
                         </tr>
                     ))}
                 </tbody>
@@ -41,4 +42,3 @@ NetworkDetailsTable.propTypes = {
 };
 
 export default NetworkDetailsTable;
-
