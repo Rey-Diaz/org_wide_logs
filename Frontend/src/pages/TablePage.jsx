@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import Card from '../components/Card';
 import OrgList from '../components/OrgList'; // Import OrgList component
-import styles from './ApiKeyPage.module.css';
+import styles from './TablePage.module.css';
 import { setApiKey as setApiKeyInBackend } from '../services/merakiService';
 
 function ApiKeyPage() {

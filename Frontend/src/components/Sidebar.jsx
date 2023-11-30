@@ -19,7 +19,7 @@ function Sidebar({ isOpen, toggleSidebar }) {
             <Link to="/page2" className={styles.link}>
                 <span className={styles.icon}><MdPageview /></span> Page 2
             </Link>
-            <Link to="/apikey" className={styles.link}>
+            <Link to="/OrgTable" className={styles.link}>
                 <span className={styles.icon}><MdVpnKey /></span> API Key
             </Link>
             {/* Other links */}
