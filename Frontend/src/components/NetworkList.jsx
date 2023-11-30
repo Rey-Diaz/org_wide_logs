@@ -1,24 +1,23 @@
 import { useState, useEffect } from 'react';
-import PropTypes from 'prop-types'; // Import PropTypes
+import PropTypes from 'prop-types';
 import { fetchNetworks } from '../services/merakiService';
 
-function NetworkList({ orgId }) {
+function NetworkList({ orgId, onNetworkSelectionChange }) {
     const [networks, setNetworks] = useState([]);
-    const [selectedNetworks, setSelectedNetworks] = useState(new Set());
-    const [loading, setLoading] = useState(true); // Loading state
+    const [selectedNetworks, setSelectedNetworks] = useState([]);
+    const [loading, setLoading] = useState(true);
     const [error, setError] = useState('');
-    const [selectAllChecked, setSelectAllChecked] = useState(false); // Checkbox for "Select All"
 
     useEffect(() => {
         const loadNetworks = async () => {
             try {
-                setLoading(true); // Set loading to true when fetching data
+                setLoading(true);
                 const networkData = await fetchNetworks(orgId);
                 setNetworks(networkData);
             } catch (err) {
                 setError(err.message);
             } finally {
-                setLoading(false); // Set loading to false when data fetching is complete
+                setLoading(false);
             }
         };
 
@@ -27,34 +26,36 @@ function NetworkList({ orgId }) {
         }
     }, [orgId]);
 
-    useEffect(() => {
-        // Update selectedNetworks based on selectAllChecked
-        if (selectAllChecked) {
-            const allNetworkIds = networks.map((network) => network.id);
-            setSelectedNetworks(new Set(allNetworkIds));
-        } else {
-            setSelectedNetworks(new Set());
-        }
-    }, [selectAllChecked, networks]);
-
     const handleCheckboxChange = (networkId) => {
-        setSelectedNetworks((prev) => {
-            const updatedSet = new Set(prev);
-            if (updatedSet.has(networkId)) {
-                updatedSet.delete(networkId);
+        setSelectedNetworks((prevSelectedNetworks) => {
+            if (prevSelectedNetworks.includes(networkId)) {
+                return prevSelectedNetworks.filter((id) => id !== networkId);
             } else {
-                updatedSet.add(networkId);
+                return [...prevSelectedNetworks, networkId];
             }
-            return updatedSet;
         });
     };
+
+    const handleSelectAllChange = () => {
+        if (selectedNetworks.length === networks.length) {
+            setSelectedNetworks([]);
+        } else {
+            const allNetworkIds = networks.map((network) => network.id);
+            setSelectedNetworks(allNetworkIds);
+        }
+    };
+
+    useEffect(() => {
+        // Call the callback function to update selected networks when checkboxes change
+        onNetworkSelectionChange(selectedNetworks);
+    }, [selectedNetworks, onNetworkSelectionChange]);
 
     if (loading) {
         return (
             <div>
                 <p>Loading networks...</p>
             </div>
-        ); // Display loading message while fetching data
+        );
     }
 
     if (error) {
@@ -66,8 +67,8 @@ function NetworkList({ orgId }) {
             <label>
                 <input
                     type="checkbox"
-                    checked={selectAllChecked}
-                    onChange={() => setSelectAllChecked(!selectAllChecked)}
+                    checked={selectedNetworks.length === networks.length}
+                    onChange={handleSelectAllChange}
                 />{' '}
                 Select All
             </label>
@@ -75,7 +76,7 @@ function NetworkList({ orgId }) {
                 <div key={network.id}>
                     <input
                         type="checkbox"
-                        checked={selectedNetworks.has(network.id)}
+                        checked={selectedNetworks.includes(network.id)}
                         onChange={() => handleCheckboxChange(network.id)}
                     />
                     {network.name}
@@ -85,9 +86,9 @@ function NetworkList({ orgId }) {
     );
 }
 
-// Add prop validation
 NetworkList.propTypes = {
-    orgId: PropTypes.string.isRequired, // Specify the type as string and mark it as required
+    orgId: PropTypes.string.isRequired,
+    onNetworkSelectionChange: PropTypes.func.isRequired,
 };
 
 export default NetworkList;
