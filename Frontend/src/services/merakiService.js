@@ -1,0 +1,38 @@
+// src/services/merakiService.js
+
+// Function to set the API key in the backend
+const setApiKey = async (apiKey) => {
+    const response = await fetch('http://localhost:8000/set_api_key', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ api_key: apiKey }),
+    });
+    if (!response.ok) {
+        throw new Error('Failed to set API key');
+    }
+    return response.json();
+};
+
+// Function to fetch organizations from your FastAPI backend
+const fetchOrganizations = async () => {
+    const response = await fetch('http://localhost:8000/organizations');
+    if (!response.ok) {
+        throw new Error('Failed to fetch organizations');
+    }
+    return response.json();
+};
+
+const fetchNetworks = async (orgId) => {
+    const response = await fetch(`http://localhost:8000/networks/${orgId}`);
+    // Check for response.ok
+    if (!response.ok) {
+        throw new Error('Failed to fetch networks');
+    }
+    return response.json();
+};
+
+
+
+export { setApiKey, fetchOrganizations, fetchNetworks };

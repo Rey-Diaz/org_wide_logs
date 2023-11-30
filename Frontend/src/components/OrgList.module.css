@@ -1,0 +1,15 @@
+/* OrgList.module.css */
+
+.orgItem {
+    cursor: pointer;
+    padding: 10px;
+    margin: 5px 0;
+    background-color: #f0f0f0;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    transition: background-color 0.3s;
+}
+
+.orgItem:hover {
+    background-color: #e0e0e0;
+}

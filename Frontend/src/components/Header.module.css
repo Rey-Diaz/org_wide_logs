@@ -1,0 +1,50 @@
+/* Header.module.css */
+.header {
+    background-color: #f4f4f4;
+    padding: 10px 20px;
+    display: flex;
+    flex-direction: column; /* Change the direction to column */
+    align-items: center; /* Center horizontally */
+    justify-content: center; /* Center vertically */
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.menuButton {
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 24px;
+    color: #001f3f;
+    margin-right: 16px;
+    transition: transform 0.3s ease-in-out;
+}
+
+.menuButton:hover {
+    animation: jiggle 0.3s ease-in-out infinite;
+}
+
+@keyframes jiggle {
+    0% {
+        transform: rotate(0deg);
+    }
+    25% {
+        transform: rotate(10deg);
+    }
+    50% {
+        transform: rotate(0deg);
+    }
+    75% {
+        transform: rotate(-10deg);
+    }
+    100% {
+        transform: rotate(0deg);
+    }
+}
+
+.title {
+    font-size: 30px;
+    color: #001f3f;
+    text-decoration: none;
+    transition: color 0.3s;
+    font-weight: bold;
+}

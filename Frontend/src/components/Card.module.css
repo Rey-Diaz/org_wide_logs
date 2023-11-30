@@ -1,0 +1,14 @@
+/* Card.module.css */
+.card {
+    background-color: var(--cui-card-bg, #fff);
+    border: 1px solid var(--cui-border-color, #ddd);
+    border-radius: var(--cui-border-radius, 4px);
+    box-shadow: var(--cui-box-shadow, 0 2px 4px rgba(0, 0, 0, 0.1));
+    padding: 20px;
+    margin: 20px;
+    display: inline-block; /* Adjust display to fit content */
+    max-width: 100%; /* Allow the card to expand to its container width */
+    box-sizing: border-box; /* Ensure padding doesn't make it exceed max-width */
+}
+
+/* Add additional styles or overrides as needed */

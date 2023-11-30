@@ -1,0 +1,9 @@
+/* NetworkList.module.css */
+
+.networkItem {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+/* Add more styles as needed */

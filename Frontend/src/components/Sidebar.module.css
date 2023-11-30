@@ -1,0 +1,88 @@
+/* Sidebar.module.css */
+.sidePanelOpen {
+    position: fixed;
+    left: 0;
+    width: 250px;
+    height: 100%;
+    background-color: #f8f8f8;
+    box-shadow: 4px 0px 6px rgba(0, 0, 0, 0.1);
+    /* Use transform for smooth opening animation */
+    transform: translateX(0); /* Move the sidebar in from the left */
+    transition: transform 0.3s ease-in-out; /* Add a transition for smooth animation */
+    /* Other styles for open state */
+}
+
+
+.sidePanelClosed {
+    width: 0;
+    overflow: hidden;
+    background-color: #f8f8f8;
+    /* Other styles for closed state */
+}
+
+.closeButton {
+    background: none;
+    border: none;
+    color: #000;
+    cursor: pointer;
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    /* Additional styling as needed */
+}
+
+.header {
+    font-size: 28px; /* Larger font size for the header */
+    margin-bottom: 24px;
+    color: #001f3f;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.link {
+    color: #001f3f;
+    padding: 12px; /* Increased padding for links */
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+    /* Remove the default link underline and highlight */
+    text-decoration: none;
+    outline: none;
+    font-size: 20px; /* Larger font size for links */
+}
+
+.icon {
+    margin-right: 16px; /* Increased margin for icons */
+    font-size: 32px; /* Larger font size for icons */
+    color: #001f3f;
+}
+
+/* Center the icon vertically */
+.link .icon {
+    display: flex;
+    align-items: center;
+}
+
+.link:hover .icon {
+    animation: jiggle 0.3s ease-in-out infinite;
+}
+
+@keyframes jiggle {
+    0% {
+        transform: rotate(0deg);
+    }
+    25% {
+        transform: rotate(10deg);
+    }
+    50% {
+        transform: rotate(0deg);
+    }
+    75% {
+        transform: rotate(-10deg);
+    }
+    100% {
+        transform: rotate(0deg);
+    }
+}
