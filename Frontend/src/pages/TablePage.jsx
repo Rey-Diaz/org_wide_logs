@@ -1,23 +1,23 @@
 import { useState } from 'react';
 import Card from '../components/Card';
 import OrgList from '../components/OrgList'; // Import OrgList component
+import NetworkList from '../components/NetworkList'; // Import NetworkList component
 import styles from './TablePage.module.css';
 import { setApiKey as setApiKeyInBackend } from '../services/merakiService';
 
 function TablePage() {
     const [apiKey, setApiKeyState] = useState('');
-    const [showOrgList, setShowOrgList] = useState(false); // State to control OrgList display
+    const [selectedOrg, setSelectedOrg] = useState(null); // State to track the selected organization
+    const [apiKeySubmitted, setApiKeySubmitted] = useState(false); // State to track if the API key has been submitted
 
     const handleSubmit = async (event) => {
         event.preventDefault();
         try {
             await setApiKeyInBackend(apiKey); // Send the API key to the backend
             alert('API Key set successfully');
-            setApiKeyState('');
-            setShowOrgList(true); // Show OrgList on successful API key submission
+            setApiKeySubmitted(true); // Mark API key as submitted
         } catch (error) {
             alert('Failed to set API key: ' + error.message);
-            setShowOrgList(false); // Optionally reset the state if there is an error
         }
     };
 
@@ -34,12 +34,19 @@ function TablePage() {
                             className={styles.input}
                         />
                     </div>
-                    <button type="submit" className={styles.submitBtn}>Submit</button>
+                    <button type="submit" className={styles.submitBtn}>
+                        Submit
+                    </button>
                 </form>
             </Card>
-            {showOrgList && (
+            {apiKeySubmitted && (
                 <Card>
-                    <OrgList />
+                    <OrgList apiKey={apiKey} setSelectedOrg={setSelectedOrg} />
+                </Card>
+            )}
+            {selectedOrg && (
+                <Card>
+                    <NetworkList orgId={selectedOrg} />
                 </Card>
             )}
         </div>

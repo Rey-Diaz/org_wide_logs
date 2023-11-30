@@ -1,18 +1,23 @@
 import { useState, useEffect } from 'react';
+import PropTypes from 'prop-types'; // Import PropTypes
 import { fetchOrganizations } from '../services/merakiService';
-import NetworkList from './NetworkList'; // Import the NetworkList component
 import styles from './OrgList.module.css';
 
-function OrgList() {
+function OrgList({ apiKey, setSelectedOrg }) {
     const [organizations, setOrganizations] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState('');
-    const [selectedOrg, setSelectedOrg] = useState(null); // State to track the selected organization
 
     useEffect(() => {
         const loadOrganizations = async () => {
             try {
-                const data = await fetchOrganizations();
+                if (!apiKey) {
+                    // Handle the case where the API key is missing
+                    setError('API key is missing.');
+                    return;
+                }
+
+                const data = await fetchOrganizations(apiKey);
                 setOrganizations(data);
             } catch (err) {
                 setError(err.message);
@@ -22,7 +27,7 @@ function OrgList() {
         };
 
         loadOrganizations();
-    }, []);
+    }, [apiKey]);
 
     const handleOrgClick = (orgId) => {
         setSelectedOrg(orgId); // Set the selected organization when clicked
@@ -40,16 +45,20 @@ function OrgList() {
         <div>
             <h2>Organizations</h2>
             <ul>
-            {organizations.map(org => (
-                <li key={org.id} onClick={() => handleOrgClick(org.id)} className={styles.orgItem}>
-                    {org.name}
-                </li>
-                    
+                {organizations.map((org) => (
+                    <li key={org.id} onClick={() => handleOrgClick(org.id)} className={styles.orgItem}>
+                        {org.name}
+                    </li>
                 ))}
             </ul>
-            {selectedOrg && <NetworkList orgId={selectedOrg} />} {/* Render NetworkList if an organization is selected */}
         </div>
     );
 }
+
+// Add prop validation
+OrgList.propTypes = {
+    apiKey: PropTypes.string.isRequired, // Specify the type as string and mark it as required
+    setSelectedOrg: PropTypes.func.isRequired, // Specify the type as function and mark it as required
+};
 
 export default OrgList;
