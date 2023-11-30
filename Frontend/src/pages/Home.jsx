@@ -34,8 +34,8 @@ function Home() {
                 <Card className={styles.card}>
                     <h2>Card 3</h2>
                     <p>Description for Card 3.</p>
-                    <Link to="/apikey" className={styles.link}>
-                        Go to API Key Page
+                    <Link to="/OrgTable" className={styles.link}>
+                        Go to Org Table Page
                     </Link>
                 </Card>
             </div>
