@@ -3,6 +3,27 @@ import PropTypes from 'prop-types';
 import styles from './EventCard.module.css'; // Ensure you have this CSS module
 
 const EventCard = ({ eventData, onClose }) => {
+    const renderEventData = () => {
+        return Object.entries(eventData).map(([key, value], index) => {
+            if (typeof value === 'object' && value !== null) {
+                return (
+                    <div key={index}>
+                        <strong>{key.replace(/_/g, ' ').toUpperCase()}:</strong>
+                        <ul className={styles.subList}>
+                            {Object.entries(value).map(([subKey, subValue], subIndex) => (
+                                <li key={subIndex}>
+                                    <strong>{subKey.replace(/_/g, ' ').toUpperCase()}:</strong> {subValue}
+                                </li>
+                            ))}
+                        </ul>
+                    </div>
+                );
+            } else {
+                return <p key={index}><strong>{key.replace(/_/g, ' ').toUpperCase()}:</strong> {value}</p>;
+            }
+        });
+    };
+
     return (
         <div className={styles.card}>
             <div className={styles.cardHeader}>
@@ -10,12 +31,7 @@ const EventCard = ({ eventData, onClose }) => {
                 <button onClick={onClose} className={styles.closeButton}>X</button>
             </div>
             <div className={styles.cardBody}>
-                {/* Display event data here */}
-                <p><strong>Occurred At:</strong> {eventData.occurred_at}</p>
-                <p><strong>Network ID:</strong> {eventData.network_id}</p>
-                <p><strong>Event Type:</strong> {eventData.type}</p>
-                <p><strong>Description:</strong> {eventData.description}</p>
-                {/* Add more fields as needed */}
+                {renderEventData()}
             </div>
         </div>
     );
